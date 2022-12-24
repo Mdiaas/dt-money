@@ -47,6 +47,14 @@
       "type": "outcome",
       "createdAt": "2022-12-24T14:25:52.567Z",
       "id": 6
+    },
+    {
+      "category": "moradia",
+      "description": "casa nova",
+      "price": 9000,
+      "type": "outcome",
+      "createdAt": "2022-12-24T14:42:52.316Z",
+      "id": 7
     }
   ]
 }
