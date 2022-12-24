@@ -1,20 +1,52 @@
 {
-    "transactions": [
-        {
-            "id": 1,
-            "description": "Desenvolvimento de site",
-            "type": "income",
-            "category": "Venda",
-            "price": 14000,
-            "createdAt": "2022-12-22T17: 09: 43.623Z"
-        },
-        {
-            "id": 2,
-            "description": "Hamburguer",
-            "type": "outcome",
-            "category": "Venda",
-            "price": 30,
-            "createdAt": "2022-12-22T17: 09: 20.623Z"
-        }
-    ]
+  "transactions": [
+    {
+      "id": 1,
+      "description": "Desenvolvimento de site",
+      "type": "income",
+      "category": "Venda",
+      "price": 14000,
+      "createdAt": "2022-12-22T17:09:43.623Z"
+    },
+    {
+      "id": 2,
+      "description": "Hamburguer",
+      "type": "outcome",
+      "category": "Venda",
+      "price": 30,
+      "createdAt": "2022-12-22T17:09:20.623Z"
+    },
+    {
+      "category": "venda",
+      "description": "Desenvolvimento de app",
+      "price": 40000,
+      "type": "income",
+      "createdAt": "2022-12-24T14:08:16.047Z",
+      "id": 3
+    },
+    {
+      "category": "venda",
+      "description": "Desenvolvimento desktop",
+      "price": 30000,
+      "type": "income",
+      "createdAt": "2022-12-24T14:09:01.585Z",
+      "id": 4
+    },
+    {
+      "category": "alimentação",
+      "description": "pastelaria",
+      "price": 35,
+      "type": "outcome",
+      "createdAt": "2022-12-24T14:20:39.570Z",
+      "id": 5
+    },
+    {
+      "category": "compra",
+      "description": "presente de natal",
+      "price": 1500,
+      "type": "outcome",
+      "createdAt": "2022-12-24T14:25:52.567Z",
+      "id": 6
+    }
+  ]
 }

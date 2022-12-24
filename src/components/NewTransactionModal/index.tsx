@@ -1,30 +1,110 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import * as RadioGroup from '@radix-ui/react-radio-group'
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
-import { CloseButton, Content, Overlay, TransactionButton, TransactionType } from './styles'
-export function NewTransactionModal(){
-    return (
-        <Dialog.Portal>
-            <Overlay />
-            <Content>
-                <Dialog.Title>Nova transação</Dialog.Title>
-                
-                <CloseButton>
-                    <X size={24}/>
-                </CloseButton>
-                <form action="">
-                    <input type="text"   placeholder="Descrição" required />
-                    <input type="number" placeholder="Preço" required />
-                    <input type="text"   placeholder="Categoria" required />
-                
+import {
+  CloseButton,
+  Content,
+  Overlay,
+  TransactionButton,
+  TransactionType,
+} from './styles'
+import { Controller, useForm } from 'react-hook-form'
+import * as z from 'zod'
 
-                    <TransactionType>
-                    <TransactionButton value="income" variant='income'><ArrowCircleUp />Entrada</TransactionButton>
-                    <TransactionButton value="outcome" variant='outcome'><ArrowCircleDown />Saída</TransactionButton>
-                    </TransactionType>
-                    <button type='submit'>Cadastrar</button>
-                </form>
-            </Content>
-        </Dialog.Portal>
-    )
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useContext } from 'react'
+import { TransactionsContext } from '../../contexts/TransactionsContext'
+
+const NewTransactionFormSchema = z.object({
+  description: z.string(),
+  price: z.number(),
+  category: z.string(),
+  type: z.enum(['income', 'outcome']),
+})
+
+type NewTransactionsFormInputs = z.infer<typeof NewTransactionFormSchema>
+
+export function NewTransactionModal() {
+  const { createTransaction } = useContext(TransactionsContext)
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+    reset,
+  } = useForm<NewTransactionsFormInputs>({
+    resolver: zodResolver(NewTransactionFormSchema),
+    defaultValues: {
+      type: 'income',
+    },
+  })
+  async function handleCreateNewTransaction(data: NewTransactionsFormInputs) {
+    const { category, description, price, type } = data
+
+    createTransaction({
+      category,
+      description,
+      price,
+      type,
+    })
+    reset()
+  }
+
+  return (
+    <Dialog.Portal>
+      <Overlay />
+      <Content>
+        <Dialog.Title>Nova transação</Dialog.Title>
+
+        <CloseButton>
+          <X size={24} />
+        </CloseButton>
+        <form onSubmit={handleSubmit(handleCreateNewTransaction)}>
+          <input
+            type="text"
+            placeholder="Descrição"
+            required
+            {...register('description')}
+          />
+          <input
+            type="number"
+            placeholder="Preço"
+            required
+            {...register('price', { valueAsNumber: true })}
+          />
+          <input
+            type="text"
+            placeholder="Categoria"
+            required
+            {...register('category')}
+          />
+
+          <Controller
+            control={control}
+            name="type"
+            render={({ field }) => {
+              return (
+                <TransactionType
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <TransactionButton value="income" variant="income">
+                    <ArrowCircleUp />
+                    Entrada
+                  </TransactionButton>
+                  <TransactionButton value="outcome" variant="outcome">
+                    <ArrowCircleDown />
+                    Saída
+                  </TransactionButton>
+                </TransactionType>
+              )
+            }}
+          />
+
+          <button type="submit" disabled={isSubmitting}>
+            Cadastrar
+          </button>
+        </form>
+      </Content>
+    </Dialog.Portal>
+  )
 }
